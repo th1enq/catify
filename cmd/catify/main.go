@@ -39,4 +39,6 @@ func main() {
 		log.Fatal("Failed to connect to Redis: %v", err)
 	}
 
+
+	
 }
