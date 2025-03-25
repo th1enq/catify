@@ -1,11 +1,3 @@
-/*
-	isFollwing
-	Create
-	Delete
-	GetFollowersIDs -> []
-	GetFollowingIDs -> []
-*/
-
 package repository
 
 import (
@@ -54,4 +46,16 @@ func (r *FollowRepository) GetFollowersID(id uint) ([]uint, error) {
 	return result, nil
 }
 
-func (r *)
+func (r *FollowRepository) GetFollowingsID(id uint) ([]uint, error) {
+	var users []models.UserFollow
+	if err := r.db.Where("follower_id = ?", id).Find(&users).Error; err != nil {
+		return nil, err
+	}
+
+	var result = make([]uint, len(users))
+	for i, followings := range users {
+		result[i] = followings.FollowingID
+	}
+
+	return result, nil
+}
