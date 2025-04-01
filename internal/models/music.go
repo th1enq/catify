@@ -21,7 +21,7 @@ type Music struct {
 	CreateAt    time.Time      `json:"create_at"`
 	UpdateAt    time.Time      `json:"update_at"`
 	DeleteAt    gorm.DeletedAt `json:"-" gorm:"index"`
-}
+}  
 
 func (Music) TableName() string {
 	return "musics"
