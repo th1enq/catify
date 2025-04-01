@@ -21,11 +21,11 @@ type MusicServices struct {
 	client *redis.Client
 }
 
-func NewMusicServices(db *db.DB, client *redis.Client) (*MusicServices, error) {
+func NewMusicServices(db *db.DB, client *redis.Client) *MusicServices {
 	return &MusicServices{
 		db:     db,
 		client: client,
-	}, nil
+	}
 }
 
 func (s *MusicServices) SelectMusic() *gorm.DB {

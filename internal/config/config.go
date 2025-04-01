@@ -31,10 +31,10 @@ func Load() (*Config, error) {
 
 	return &Config{
 		ServerPort:    getEnvOrDefaultString("SERVER_PORT", "8080"),
-		DBHost:        getEnvOrDefaultString("DB_HOST", "localhost"),
+		DBHost:        getEnvOrDefaultString("DB_HOST", "postgres"),
 		DBPort:        getEnvOrDefaultString("DB_PORT", "5432"),
-		DBUser:        getEnvOrDefaultString("DB_USER", "posgres"),
-		DBPassword:    getEnvOrDefaultString("DB_PASSWORD", "password"),
+		DBUser:        getEnvOrDefaultString("DB_USER", "mydb"),
+		DBPassword:    getEnvOrDefaultString("DB_PASSWORD", "admin"),
 		DBName:        getEnvOrDefaultString("DB_NAME", "catify"),
 		DBSSLMode:     getEnvOrDefaultString("DB_SSLMODE", "disable"),
 		RedisHost:     getEnvOrDefaultString("REDIS_HOST", "localhost"),
