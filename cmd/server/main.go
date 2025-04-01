@@ -17,7 +17,7 @@ import (
 func main() {
 	cfg, err := config.Load()
 	if err != nil {
-		log.Fatal("Failed to load configuration: %v", err)
+		log.Fatalf("Failed to load configuration: %v", err)
 	}
 
 	cfgDB, err := db.Init(cfg)
@@ -33,12 +33,12 @@ func main() {
 	router := api.SetupRouter(cfgDB, cfgRedis)
 
 	server := &http.Server{
-		Addr:    cfg.ServerPort,
+		Addr:    ":" + cfg.ServerPort,
 		Handler: router,
 	}
 
 	go func() {
-		log.Println("Starting Catify on port %d...", cfg.ServerPort)
+		log.Printf("Starting Catify on port %s...", cfg.ServerPort)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("Failed to start server %v", err)
 		}

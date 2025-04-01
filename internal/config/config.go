@@ -31,7 +31,7 @@ func Load() (*Config, error) {
 
 	return &Config{
 		ServerPort:    getEnvOrDefaultString("SERVER_PORT", "8080"),
-		DBHost:        getEnvOrDefaultString("DB_HOST", "postgres"),
+		DBHost:        getEnvOrDefaultString("DB_HOST", "localhost"),
 		DBPort:        getEnvOrDefaultString("DB_PORT", "5432"),
 		DBUser:        getEnvOrDefaultString("DB_USER", "mydb"),
 		DBPassword:    getEnvOrDefaultString("DB_PASSWORD", "admin"),
