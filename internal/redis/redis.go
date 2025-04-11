@@ -14,7 +14,7 @@ type Client struct {
 }
 
 func Init(cfg *config.Config) (*Client, error) {
-	addr := fmt.Sprintf("%s:%s", cfg.RedisHost, cfg.RedisPort)
+	addr := fmt.Sprintf("%s:%d", cfg.RedisHost, cfg.RedisPort)
 	client := redis.NewClient(&redis.Options{
 		Addr:     addr,
 		Password: cfg.RedisPassword,

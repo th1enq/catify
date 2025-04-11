@@ -2,6 +2,7 @@ package api
 
 import (
 	"catify/internal/db"
+	"catify/internal/elastic"
 	"catify/internal/redis"
 	"catify/internal/services"
 	"net/http"
@@ -10,12 +11,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter(db *db.DB, redisClient *redis.Client) *gin.Engine {
+func SetupRouter(db *db.DB, redisClient *redis.Client, esClient *elastic.Client) *gin.Engine {
 	router := gin.Default()
 
 	router.Use(cors.Default())
 
-	musicServices := services.NewMusicServices(db, redisClient)
+	musicServices := services.NewMusicServices(db, redisClient, esClient)
 
 	musicHandler := NewMusicHandler(musicServices)
 

@@ -4,6 +4,7 @@ import (
 	"catify/internal/api"
 	"catify/internal/config"
 	"catify/internal/db"
+	"catify/internal/elastic"
 	"catify/internal/redis"
 	"context"
 	"log"
@@ -30,7 +31,9 @@ func main() {
 		log.Fatal("Failed to load redis configuration: %v", err)
 	}
 
-	router := api.SetupRouter(cfgDB, cfgRedis)
+	cfgElastic, err := elastic.Init()
+
+	router := api.SetupRouter(cfgDB, cfgRedis, cfgElastic)
 
 	server := &http.Server{
 		Addr:    ":" + cfg.ServerPort,

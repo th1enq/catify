@@ -1,63 +1,39 @@
 package config
 
 import (
-	"os"
-	"strconv"
+	"fmt"
 
+	"github.com/joeshaw/envdecode"
 	"github.com/joho/godotenv"
 )
 
 type Config struct {
-	// Server configuration
-	ServerPort string
+	ServerPort string `env:"SERVER_PORT,required"`
 
-	// Database configuration
-	DBHost     string
-	DBPort     string
-	DBUser     string
-	DBPassword string
-	DBName     string
-	DBSSLMode  string
+	DBHost     string `env:"DB_HOST,required"`
+	DBPort     int    `env:"DB_PORT,required"`
+	DBUser     string `env:"DB_USER,requried"`
+	DBPassword string `env:"DB_PASSWORD,requried"`
+	DBName     string `env:"DB_NAME,requried"`
 
-	// Redis configuration
-	RedisHost     string
-	RedisPort     string
-	RedisPassword string
-	RedisDB       int
+	RedisHost     string `env:"REDIS_HOST,requried"`
+	RedisPort     int    `env:"REDIS_PORT,requried"`
+	RedisPassword string `env:"REDIS_PASSWORD,requried"`
+	RedisDB       int    `env:"REDIS_DB,requried"`
+
+	ElasticPassword string `env:"ELASTIC_PASSWORD,required"`
 }
 
 func Load() (*Config, error) {
 	_ = godotenv.Load()
 
-	return &Config{
-		ServerPort:    getEnvOrDefaultString("SERVER_PORT", "8080"),
-		DBHost:        getEnvOrDefaultString("DB_HOST", "localhost"),
-		DBPort:        getEnvOrDefaultString("DB_PORT", "5432"),
-		DBUser:        getEnvOrDefaultString("DB_USER", "mydb"),
-		DBPassword:    getEnvOrDefaultString("DB_PASSWORD", "admin"),
-		DBName:        getEnvOrDefaultString("DB_NAME", "catify"),
-		DBSSLMode:     getEnvOrDefaultString("DB_SSLMODE", "disable"),
-		RedisHost:     getEnvOrDefaultString("REDIS_HOST", "localhost"),
-		RedisPort:     getEnvOrDefaultString("REDIS_PORT", "6379"),
-		RedisPassword: getEnvOrDefaultString("REDIS_PASSWORD", "password"),
-		RedisDB:       getEnvOrDefaultInt("REDIS_DB", 0),
-	}, nil
-}
+	var cfg Config
 
-func getEnvOrDefaultString(key, defaultValue string) string {
-	if value, exist := os.LookupEnv(key); exist != false {
-		return value
+	if err := envdecode.Decode(&cfg); err != nil {
+		return nil, err
 	}
-	return defaultValue
-}
 
-func getEnvOrDefaultInt(key string, defaultValue int) int {
-	if value, exist := os.LookupEnv(key); exist != false {
-		IntValue, err := strconv.Atoi(value)
-		if err != nil {
-			return defaultValue
-		}
-		return IntValue
-	}
-	return defaultValue
+	fmt.Println(cfg)
+
+	return &cfg, nil
 }
